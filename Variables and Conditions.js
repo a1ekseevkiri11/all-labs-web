@@ -1,5 +1,7 @@
+//3
 const dayOfTheWeek = ["Понедельник","Вторник", "Среда", "Четрверг", "Пятница", "Суббота", "Воскресенье"];
 
+//4
 const box = [
     {
         x: 30,
@@ -51,16 +53,17 @@ window.onload = function(){
         }
         if(Age < 0){
             alert("Возраст не может быть меньше нуля!");
+            return;
         }
-        else if(Age < 7){
+        if(Age < 7){
             alert("Привет, " + Name);
+            return;
         }
-        else if(Age < 18){
+        if(Age < 18){
             alert("Здравствуй, " + Surname);
+            return;
         }
-        else{
-            alert("Здравствуйте, " + Name + " " + NameFather);
-        }
+        alert("Здравствуйте, " + Name + " " + NameFather);
     }
 
     //2
