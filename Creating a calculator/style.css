@@ -29,6 +29,7 @@ body{
     align-items: center;
     justify-content: space-evenly;
     border-radius: 25px;
+    box-shadow: 6px 6px 4px #000000;
 }
 
 #screen{
@@ -41,19 +42,20 @@ body{
     justify-content: flex-end;
     background: #acacac;
     border-radius: 20px;
+    box-shadow: -8px -8px 4px #000000;
 }
 
-#buttons{
+#keyboard{
     width: 85%;
     height: 50%;
 }
 
-#buttons td{
+#keyboard td{
     width: 15%;
     padding-top: 10px;
 }
 
-#buttons button{
+#keyboard button{
     font-family: 'Press Start 2P', cursive;
     font-size: 20px;
     color: #e7dcdc;
@@ -64,7 +66,7 @@ body{
     box-shadow: 4px 4px 4px #000000;
 }
 
-#buttons button:hover {
+#keyboard button:hover {
     background-color: #413636;
     color: #ffffff;
 }
