@@ -115,16 +115,19 @@ window.onload = function(){
         let y = Math.floor(cars.y / box.y);
         let z = Math.floor(cars.z / box.z);
         let foamRubber_count = (x - 1) * foamRubber;
-        if(cars.x % box.x < foamRubber_count){
+        while(cars.x - box.x * x - foamRubber_count < 0){
             x--;
+            foamRubber_count = (x - 1) * foamRubber;
         }
         foamRubber_count = (y - 1) * foamRubber;
-        if(cars.y % box.y < foamRubber_count){
+        while(cars.y - box.y * y - foamRubber_count < 0){
             y--;
+            foamRubber_count = (y - 1) * foamRubber;
         }
         foamRubber_count = (z - 1) * foamRubber;
-        if(cars.z % box.z < foamRubber_count){
+        while(cars.z - box.z * z - foamRubber_count < 0){
             z--;
+            foamRubber_count = (z - 1) * foamRubber;
         }
         return x * y * z;
     }
