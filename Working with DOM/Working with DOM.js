@@ -84,4 +84,60 @@ function fill(){
 
 //8
 
+//9
+const ballBlock = document.getElementById('ball');
+const fieldBlock = document.getElementById('field');
+const limits = {
+    top: fieldBlock.offsetTop,
+    right: fieldBlock.offsetWidth + fieldBlock.offsetLeft - ballBlock.offsetWidth,
+    bottom: fieldBlock.offsetHeight + fieldBlock.offsetTop - ballBlock.offsetHeight,
+    left: fieldBlock.offsetLeft,
+};
 
+let ball = document.getElementById('ball');
+
+ball.onmousedown = (e) => {
+    let coords = getCoords(ball);
+    let shiftX = e.pageX - coords.left;
+    let shiftY = e.pageY - coords.top;
+
+    function moveAt(e) {
+        let newPosition = {
+            left: e.pageX - shiftX,
+            top: e.pageY - shiftY,
+        }
+        if(newPosition.left < limits.left){
+            newPosition.left = limits.left;
+        }
+        else if(newPosition.left > limits.right){
+            newPosition.left = limits.right;
+        }
+        if(newPosition.top < limits.top){
+            newPosition.top = limits.top;
+        }
+        else if(newPosition.top > limits.bottom){
+            newPosition.top = limits.bottom;
+        }
+        ball.style.left = newPosition.left + 'px';
+        ball.style.top = newPosition.top + 'px';
+    }
+
+    document.onmousemove = (e) => {
+        moveAt(e);
+    };
+
+    ball.onmouseup = () => {
+        document.onmousemove = null;
+        ball.onmouseup = null;
+    };
+}
+
+function getCoords(elem) { 
+    let box = elem.getBoundingClientRect();
+    return {
+        top: box.top + scrollY,
+        left: box.left + scrollX,
+    };
+}
+
+//10
