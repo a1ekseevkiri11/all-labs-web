@@ -84,6 +84,159 @@ function fill(){
 
 //8
 
+const programmingLanguages = [
+    "JavaScript",
+    "Python",
+    "Java",
+    "C++",
+    "Ruby",
+    "Swift",
+    "Go",
+    "PHP",
+    "Rust",
+    "TypeScript",
+    "C#",
+    "Kotlin",
+    "Perl",
+    "Scala",
+    "Dart",
+    "Lua",
+    "Haskell",
+    "Objective-C",
+    "R",
+    "MATLAB",
+    "COBOL",
+    "Fortran",
+    "Ada",
+    "Groovy",
+    "Elixir",
+    "Julia",
+    "Lisp",
+    "Prolog",
+    "Assembly",
+    "VHDL",
+    "PL/SQL",
+    "Scratch",
+    "ABAP",
+    "F#",
+    "COOL",
+    "Clojure",
+    "PowerShell",
+    "Haxe",
+    "SAS",
+    "D",
+    "Racket",
+    "RPG",
+    "Forth",
+    "Erlang",
+    "Scheme",
+    "Alice",
+    "Tcl",
+    "Nim",
+    "APL",
+    "Lisp",
+    "Eiffel",
+    "VBA",
+    "Ada",
+    "Perl 6",
+    "Dylan",
+    "Elm",
+    "Awk",
+    "Smalltalk",
+    "PL/I",
+    "Turing",
+    "COBOL",
+    "Rust",
+    "Dart",
+    "Lua",
+    "Haskell",
+    "Objective-C",
+    "R",
+    "MATLAB",
+    "COBOL",
+    "Fortran",
+    "Ada",
+    "Groovy",
+    "Elixir",
+    "Julia",
+    "Lisp",
+    "Prolog",
+    "Assembly",
+    "VHDL",
+    "PL/SQL",
+    "Scratch",
+    "ABAP",
+    "F#",
+    "COOL",
+    "Clojure",
+    "PowerShell",
+    "Haxe",
+    "SAS",
+    "D",
+    "Racket",
+    "RPG",
+    "Forth",
+    "Erlang",
+    "Scheme",
+    "Alice",
+    "Tcl",
+    "Nim",
+    "APL",
+    "Lisp",
+    "Eiffel",
+    "VBA",
+    "Ada",
+    "Perl 6",
+    "Dylan",
+    "Elm",
+    "Awk",
+    "Smalltalk",
+    "PL/I",
+    "Turing"
+];
+
+function autocomplete(inputBlock, arr) {
+    inputBlock.addEventListener("input", function(e) {
+        let val = this.value;
+        closeAllLists();
+        if (!val) { 
+            return false;
+        }
+        let conteiner = document.createElement("DIV");
+        conteiner.setAttribute("id", this.id + "autocomplete-list");
+        conteiner.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(conteiner);
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                let block = document.createElement("DIV");
+                block.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                block.innerHTML += arr[i].substr(val.length);
+                block.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                block.addEventListener("click", function(e) {
+                    inputBlock.value = this.getElementsByTagName("input")[0].value;
+                    // closeAllLists();
+                });
+                conteiner.appendChild(block);
+            }
+        }
+    });
+    function closeAllLists(elmnt) {
+        let block = document.getElementsByClassName("autocomplete-items");
+        for (let i = 0; i < block.length; i++) {
+            if (elmnt != block[i] && elmnt != inputBlock) {
+                block[i].parentNode.removeChild(block[i]);
+            }
+        }
+    }
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    autocomplete(document.getElementById("myInput"), programmingLanguages);
+});
+
 //9
 const ballBlock = document.getElementById('ball');
 const fieldBlock = document.getElementById('field');
