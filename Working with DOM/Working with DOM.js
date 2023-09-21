@@ -312,50 +312,57 @@ function getCoords(elem) {
 
 //support function
 
-// function getRandomInt(min, max) {
-// 	return Math.floor( Math.random() * (max - min) + min );
-// }
+function getRandomInt(min, max) {
+	return Math.floor( Math.random() * (max - min) + min );
+}
 
-// class Config {
-// 	constructor() {
-// 		this.step = 0;
-// 		this.maxStep = 20;
-// 		this.sizeCell = 16;
-// 		this.sizeBerry = this.sizeCell / 4;
-// 	}
-// }
+class Config {
+	constructor() {
+		this.step = 0;
+		this.maxStep = 20;
+		this.sizeCell = 16;
+		this.sizeBerry = this.sizeCell / 4;
+	}
+}
 
-// class Canvas {
-//     constructor( container ) {
-//         this.element = document.createElement( "canvas" );
-//         this.context = this.element.getContext( "2d" );
-//         this.element.width = 320;
-//         this.element.height = 400;
-//         container.appendChild( this.element );
-//     }
-// }
+class Canvas {
+    constructor() {
+        this.element = document.getElementById("game-canvas");
+        this.context = this.element.getContext( "2d" );
+        this.element.width = 320;
+        this.element.height = 400;
+    }
+}
 
-// class Game {
-//     constructor( container ) {
-//         this.canvas_ = new Canvas( container );
-//         this.snake_ = new Snake();
-//         this.berry_ = new Berry( this.canvas_ );
-//         this.score_ = new Score( ".game-score .score-count", 0 );
-//         new GameLoop( this.update.bind(this), this.draw.bind(this) );
-//     }
+class Game {
+    constructor( ) {
 
-//     update() {
-//         this.snake_.update( this.berry_, this.score_, this.canvas_ );
-//     }
+        this.canvas_ = new Canvas( );
+        this.snake_ = new Snake();
+        this.berry_ = new Berry( this.canvas_ );
+        this.score_ = new Score( ".game-score .score-count", 0 );
+        this.gameloop_ = new GameLoop( this.update.bind(this), this.draw.bind(this) );
+    }
 
-//     draw() {
-//         this.canvas_.context.clearRect( 0, 0, this.canvas_.element.width, this.canvas_.element.height );
-//         this.snake_.draw( this.canvas_.context );
-//         this.berry_.draw( this.canvas_.context );
+    update() {
+        this.snake_.update( this.berry_, this.score_, this.canvas_ );
+    }
 
-//     }
+    draw() {
+        this.canvas_.context.clearRect( 0, 0, this.canvas_.element.width, this.canvas_.element.height );
+        this.snake_.draw( this.canvas_.context );
+        this.berry_.draw( this.canvas_.context );
+    }
 
-// }
+    destroy(){
+        delete this.canvas_
+        delete this.snake_
+        delete this.berry_
+        delete this.score_
+        this.gameloop_.flagDestroy = true;
+    }
+
+}
 
 class Score {
     constructor( scoreBlock, score = 0 ) {
@@ -383,174 +390,175 @@ class Score {
     
 }
 
-// class Snake {
+class Snake {
 	
-// 	constructor(){
+	constructor(){
 
-// 		this.config = new Config();
-// 		this.x = 160;
-// 		this.y = 160;
-// 		this.dx = this.config.sizeCell;
-// 		this.dy = 0;
-// 		this.tails = [];
-// 		this.maxTails = 3;
+		this.config = new Config();
+		this.x = 160;
+		this.y = 160;
+		this.dx = this.config.sizeCell;
+		this.dy = 0;
+		this.tails = [];
+		this.maxTails = 3;
 
-// 		this.control();
+		this.control();
 
-// 	}
+	}
 
-// 	update( berry, score, canvas ) {
-// 		this.x += this.dx;
-// 		this.y += this.dy;
+	update( berry, score, canvas ) {
+		this.x += this.dx;
+		this.y += this.dy;
 	
-// 		if (this.x < 0) {
-// 			this.x = canvas.element.width - this.config.sizeCell;
-// 		} else if ( this.x >= canvas.element.width ) {
-// 			this.x = 0;
-// 		}
+		if (this.x < 0) {
+			this.x = canvas.element.width - this.config.sizeCell;
+		} else if ( this.x >= canvas.element.width ) {
+			this.x = 0;
+		}
 	
-// 		if (this.y < 0) {
-// 			this.y = canvas.element.height - this.config.sizeCell;
-// 		} else if ( this.y >= canvas.element.height ) {
-// 			this.y = 0;
-// 		}
+		if (this.y < 0) {
+			this.y = canvas.element.height - this.config.sizeCell;
+		} else if ( this.y >= canvas.element.height ) {
+			this.y = 0;
+		}
 	
-// 		this.tails.unshift( { x: this.x, y: this.y } );
+		this.tails.unshift( { x: this.x, y: this.y } );
 	
-// 		if ( this.tails.length > this.maxTails ) {
-// 			this.tails.pop();
-// 		}
+		if ( this.tails.length > this.maxTails ) {
+			this.tails.pop();
+		}
 	
-// 		this.tails.forEach( (el, index) => {
+		this.tails.forEach( (el, index) => {
 	
-// 			if ( el.x === berry.x && el.y === berry.y ) {
-// 				this.maxTails++;
-// 				score.incScore();
-// 				berry.randomPosition();
-// 			}
+			if ( el.x === berry.x && el.y === berry.y ) {
+				this.maxTails++;
+				score.incScore();
+				berry.randomPosition();
+			}
 	
-// 			for( let i = index + 1; i < this.tails.length; i++ ) {
+			for( let i = index + 1; i < this.tails.length; i++ ) {
 	
-// 				if ( el.x == this.tails[i].x && el.y == this.tails[i].y ) {
-// 					this.death();
-// 					score.setToZero();
-// 					berry.randomPosition();
-// 				}
+				if ( el.x == this.tails[i].x && el.y == this.tails[i].y ) {
+					this.death();
+					score.setToZero();
+					berry.randomPosition();
+				}
 	
-// 			}
+			}
 	
-// 		} );
+		} );
 
-// 	}
+	}
 
-// 	draw(context) {
+	draw(context) {
 
-// 		this.tails.forEach( (el, index) => {
-// 			if (index == 0) {
-// 				context.fillStyle = "#FA0556";
-// 			} else {
-// 				context.fillStyle = "#A00034";
-// 			}
-// 			context.fillRect( el.x, el.y, this.config.sizeCell, this.config.sizeCell );
-// 		} );
+		this.tails.forEach( (el, index) => {
+			if (index == 0) {
+				context.fillStyle = "#FA0556";
+			} else {
+				context.fillStyle = "#A00034";
+			}
+			context.fillRect( el.x, el.y, this.config.sizeCell, this.config.sizeCell );
+		} );
 
-// 	}
+	}
 
-// 	death() {
+	death() {
 
-// 		this.x = 160;
-// 		this.y = 160;
-// 		this.dx = this.config.sizeCell;
-// 		this.dy = 0;
-// 		this.tails = [];
-// 		this.maxTails = 3;
+		this.x = 160;
+		this.y = 160;
+		this.dx = this.config.sizeCell;
+		this.dy = 0;
+		this.tails = [];
+		this.maxTails = 3;
 
-// 	}
+	}
 
-// 	control() {
+	control() {
 		
-// 		document.addEventListener("keydown",  (e) => {
-// 			if ( e.code == "KeyW" && this.dy !== this.config.sizeCell) {
-// 				this.dy = -this.config.sizeCell;
-// 				this.dx = 0;
-// 			} else if ( e.code == "KeyA" && this.dx !== this.config.sizeCell) {
-// 				this.dx = -this.config.sizeCell;
-// 				this.dy = 0;
-// 			} else if ( e.code == "KeyS" && this.dy !== -this.config.sizeCell) {
-// 				this.dy = this.config.sizeCell;
-// 				this.dx = 0;
-// 			} else if ( e.code == "KeyD" && this.dx !== -this.config.sizeCell ) {
-// 				this.dx = this.config.sizeCell;
-// 				this.dy = 0;
-// 			}
-// 		});
+		document.addEventListener("keydown",  (e) => {
+			if ( e.code == "KeyW" && this.dy !== this.config.sizeCell) {
+				this.dy = -this.config.sizeCell;
+				this.dx = 0;
+			} else if ( e.code == "KeyA" && this.dx !== this.config.sizeCell) {
+				this.dx = -this.config.sizeCell;
+				this.dy = 0;
+			} else if ( e.code == "KeyS" && this.dy !== -this.config.sizeCell) {
+				this.dy = this.config.sizeCell;
+				this.dx = 0;
+			} else if ( e.code == "KeyD" && this.dx !== -this.config.sizeCell ) {
+				this.dx = this.config.sizeCell;
+				this.dy = 0;
+			}
+		});
 
-// 	}
+	}
 
-// }
+}
 
-// class GameLoop {
+class GameLoop {
 
-//     constructor( update, draw ) {
+    constructor( update, draw ) {
 
-//         this.update = update;
-//         this.draw = draw;
+        this.update = update;
+        this.draw = draw;
 
-//         this.config = new Config();
+        this.config = new Config();
 
-//         this.animate = this.animate.bind(this);
-//         this.animate();
+        this.animate = this.animate.bind(this);
+        this.animate();
+        this.flagDestroy = false;
 
-//     }
+    }
 
-//     animate() {
+    animate() {
+        if(this.flagDestroy){
+            return;
+        }
+        requestAnimationFrame( this.animate );
+        if ( ++this.config.step < this.config.maxStep) {
+            return;
+        }
+        this.config.step = 0;
 
-//         requestAnimationFrame( this.animate );
-//         if ( ++this.config.step < this.config.maxStep) {
-//             return;
-//         }
-//         this.config.step = 0;
+        this.update();
+        this.draw();
 
-//         this.update();
-//         this.draw();
+    }
 
-//     }
+}
 
-// }
+class Berry {
 
-// class Berry {
+    constructor( canvas ) {
 
-//     constructor( canvas ) {
+        this.x = 0;
+        this.y = 0;
+        this.canvas = canvas;
 
-//         this.x = 0;
-//         this.y = 0;
-//         this.canvas = canvas;
+        this.config = new Config();
+        this.randomPosition();
 
-//         this.config = new Config();
-//         this.randomPosition();
+    }
 
-//     }
+    draw(context) {
 
-//     draw(context) {
+        context.beginPath();
+        context.fillStyle = "#A00034";
+        context.arc( this.x + (this.config.sizeCell / 2 ), this.y + (this.config.sizeCell / 2 ), this.config.sizeBerry, 0, 2 * Math.PI );
+        context.fill();
 
-//         context.beginPath();
-//         context.fillStyle = "#A00034";
-//         context.arc( this.x + (this.config.sizeCell / 2 ), this.y + (this.config.sizeCell / 2 ), this.config.sizeBerry, 0, 2 * Math.PI );
-//         context.fill();
+    }
 
-//     }
+    randomPosition() {
+        this.x = getRandomInt( 0, this.canvas.element.width / this.config.sizeCell ) * this.config.sizeCell;
+        this.y = getRandomInt( 0, this.canvas.element.height / this.config.sizeCell ) * this.config.sizeCell;
+    }
 
-//     randomPosition() {
-//         this.x = getRandomInt( 0, this.canvas.element.width / this.config.sizeCell ) * this.config.sizeCell;
-//         this.y = getRandomInt( 0, this.canvas.element.height / this.config.sizeCell ) * this.config.sizeCell;
-//     }
-
-// }
+}
 
 
-// window.addEventListener('DOMContentLoaded', () => {
-//     const APP = new Game(document.querySelector(".canvas-wrapper"));
-// });
+
 
 
 ///////////////////////////////////////////////////
@@ -569,7 +577,7 @@ class Score {
 //support function
 
 const ConfigLabirint = {
-    defaultSizeLabirint: 5,
+    defaultSizeLabirint: 1,
     emptyCell: 0,
     occupiedСell: 1,
     finishCell: 2,
@@ -577,7 +585,7 @@ const ConfigLabirint = {
     levlUpp: 2,
     obstacleColor: "black",
     matrixColor: "white",
-    playerColor: "DarkGray",
+    playerColor: "#538109",
     finishColor: "red",
 }
 
@@ -764,14 +772,14 @@ class Labirint{
         x *= this._cellSize;
         y *= this._cellSize;
         this._context.fillStyle = color;
-        this._context.fillRect(x - 1, y - 1, this._cellSize + 1, this._cellSize + 1);
+        this._context.fillRect(x, y, this._cellSize, this._cellSize);
     }
 
     drawACircle(x, y, color){
-        x *= this._cell;
-        y *= this._cell;
+        x *= this._cellSize;
+        y *= this._cellSize;
         this._context.beginPath();
-        this._context.arc(x + this._cell / 2, y + this._cell / 2, this._cell / 3 , 0, 2 * Math.PI);
+        this._context.arc(x + this._cellSize / 2, y + this._cellSize / 2, this._cellSize / 3 , 0, 2 * Math.PI);
         this._context.fillStyle = color;
         this._context.fill();
         this._context.stroke();
@@ -781,14 +789,19 @@ class Labirint{
 class Player{
     constructor(){
         this.score_ = new Score( "#score-labirint");
-        this.labirint = new Labirint();
-        this.newLevl();
         this.initInput();
+        this.restart();
     }
 
     setToZeroPosition(){
         this._positionX = 0;
         this._positionY = 0;
+    }
+
+    restart(){
+        this.score_.setToZero();
+        this.labirint = new Labirint();
+        this.newLevl();
     }
 
     newLevl(){
@@ -842,11 +855,24 @@ class Player{
     }
 
     draw(){
-        this.labirint.fillInTheCell(this._positionX, this._positionY, ConfigLabirint.playerColor);
+        this.labirint.drawACircle(this._positionX, this._positionY, ConfigLabirint.playerColor);
     }
-
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    const APP = new Player();
-});
+window.addEventListener("DOMContentLoaded", () => {
+    const APP1 = new Game(document.querySelector(".canvas-wrapper"));
+    const APP2 = new Player();
+    document.getElementById("labirint").style.display = 'none';
+    document.getElementById("game").style.display = null;
+    document.getElementById("button-snake").addEventListener("click", () =>{
+        APP1.snake_.death();
+        document.getElementById("labirint").style.display = 'none';
+        document.getElementById("game").style.display = null;
+    });
+
+    document.getElementById("button-labirint").addEventListener("click", () =>{
+        APP2.restart();
+        document.getElementById("game").style.display = 'none';
+        document.getElementById("labirint").style.display = null;
+    });
+})
