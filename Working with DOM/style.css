@@ -105,3 +105,7 @@
 	border: 10px solid #161618;
 	box-shadow: 0px 0px 40px 10px #161618;
 }
+
+#labirint-canvas{
+    border: 1px solid #161618;
+}

@@ -297,52 +297,65 @@ function getCoords(elem) {
 
 //10
 
+
+//////////////////////////////
+//                          //
+// ████████████████████████ //
+// █   █ ██ █    █ ██ █   █ //
+// █ ███  █ █ ██ █ █ ██ ███ //
+// █   █ █  █    █  ███   █ //
+// ███ █ ██ █ ██ █ █ ██ ███ //
+// █   █ ██ █ ██ █ ██ █   █ //
+// ████████████████████████ //
+//                          //
+//////////////////////////////
+
 //support function
 
-function getRandomInt(min, max) {
-	return Math.floor( Math.random() * (max - min) + min );
-}
+// function getRandomInt(min, max) {
+// 	return Math.floor( Math.random() * (max - min) + min );
+// }
 
-class Config {
-	constructor() {
-		this.step = 0;
-		this.maxStep = 20;
-		this.sizeCell = 16;
-		this.sizeBerry = this.sizeCell / 4;
-	}
-}
+// class Config {
+// 	constructor() {
+// 		this.step = 0;
+// 		this.maxStep = 20;
+// 		this.sizeCell = 16;
+// 		this.sizeBerry = this.sizeCell / 4;
+// 	}
+// }
 
-class Canvas {
-    constructor( container ) {
-        this.element = document.createElement( "canvas" );
-        this.context = this.element.getContext( "2d" );
-        this.element.width = 320;
-        this.element.height = 400;
-        container.appendChild( this.element );
-    }
-}
+// class Canvas {
+//     constructor( container ) {
+//         this.element = document.createElement( "canvas" );
+//         this.context = this.element.getContext( "2d" );
+//         this.element.width = 320;
+//         this.element.height = 400;
+//         container.appendChild( this.element );
+//     }
+// }
 
-class Game {
-    constructor( container ) {
-        this.canvas_ = new Canvas( container );
-        this.snake_ = new Snake();
-        this.berry_ = new Berry( this.canvas_ );
-        this.score_ = new Score( ".game-score .score-count", 0 );
-        new GameLoop( this.update.bind(this), this.draw.bind(this) );
-    }
+// class Game {
+//     constructor( container ) {
+//         this.canvas_ = new Canvas( container );
+//         this.snake_ = new Snake();
+//         this.berry_ = new Berry( this.canvas_ );
+//         this.score_ = new Score( ".game-score .score-count", 0 );
+//         new GameLoop( this.update.bind(this), this.draw.bind(this) );
+//     }
 
-    update() {
-        this.snake_.update( this.berry_, this.score_, this.canvas_ );
-    }
+//     update() {
+//         this.snake_.update( this.berry_, this.score_, this.canvas_ );
+//     }
 
-    draw() {
-        this.canvas_.context.clearRect( 0, 0, this.canvas_.element.width, this.canvas_.element.height );
-        this.snake_.draw( this.canvas_.context );
-        this.berry_.draw( this.canvas_.context );
+//     draw() {
+//         this.canvas_.context.clearRect( 0, 0, this.canvas_.element.width, this.canvas_.element.height );
+//         this.snake_.draw( this.canvas_.context );
+//         this.berry_.draw( this.canvas_.context );
 
-    }
+//     }
 
-}
+// }
 
 class Score {
     constructor( scoreBlock, score = 0 ) {
@@ -370,172 +383,470 @@ class Score {
     
 }
 
-class Snake {
+// class Snake {
 	
-	constructor(){
+// 	constructor(){
 
-		this.config = new Config();
-		this.x = 160;
-		this.y = 160;
-		this.dx = this.config.sizeCell;
-		this.dy = 0;
-		this.tails = [];
-		this.maxTails = 3;
+// 		this.config = new Config();
+// 		this.x = 160;
+// 		this.y = 160;
+// 		this.dx = this.config.sizeCell;
+// 		this.dy = 0;
+// 		this.tails = [];
+// 		this.maxTails = 3;
 
-		this.control();
+// 		this.control();
 
-	}
+// 	}
 
-	update( berry, score, canvas ) {
-		this.x += this.dx;
-		this.y += this.dy;
+// 	update( berry, score, canvas ) {
+// 		this.x += this.dx;
+// 		this.y += this.dy;
 	
-		if (this.x < 0) {
-			this.x = canvas.element.width - this.config.sizeCell;
-		} else if ( this.x >= canvas.element.width ) {
-			this.x = 0;
-		}
+// 		if (this.x < 0) {
+// 			this.x = canvas.element.width - this.config.sizeCell;
+// 		} else if ( this.x >= canvas.element.width ) {
+// 			this.x = 0;
+// 		}
 	
-		if (this.y < 0) {
-			this.y = canvas.element.height - this.config.sizeCell;
-		} else if ( this.y >= canvas.element.height ) {
-			this.y = 0;
-		}
+// 		if (this.y < 0) {
+// 			this.y = canvas.element.height - this.config.sizeCell;
+// 		} else if ( this.y >= canvas.element.height ) {
+// 			this.y = 0;
+// 		}
 	
-		this.tails.unshift( { x: this.x, y: this.y } );
+// 		this.tails.unshift( { x: this.x, y: this.y } );
 	
-		if ( this.tails.length > this.maxTails ) {
-			this.tails.pop();
-		}
+// 		if ( this.tails.length > this.maxTails ) {
+// 			this.tails.pop();
+// 		}
 	
-		this.tails.forEach( (el, index) => {
+// 		this.tails.forEach( (el, index) => {
 	
-			if ( el.x === berry.x && el.y === berry.y ) {
-				this.maxTails++;
-				score.incScore();
-				berry.randomPosition();
-			}
+// 			if ( el.x === berry.x && el.y === berry.y ) {
+// 				this.maxTails++;
+// 				score.incScore();
+// 				berry.randomPosition();
+// 			}
 	
-			for( let i = index + 1; i < this.tails.length; i++ ) {
+// 			for( let i = index + 1; i < this.tails.length; i++ ) {
 	
-				if ( el.x == this.tails[i].x && el.y == this.tails[i].y ) {
-					this.death();
-					score.setToZero();
-					berry.randomPosition();
-				}
+// 				if ( el.x == this.tails[i].x && el.y == this.tails[i].y ) {
+// 					this.death();
+// 					score.setToZero();
+// 					berry.randomPosition();
+// 				}
 	
-			}
+// 			}
 	
-		} );
+// 		} );
 
-	}
+// 	}
 
-	draw(context) {
+// 	draw(context) {
 
-		this.tails.forEach( (el, index) => {
-			if (index == 0) {
-				context.fillStyle = "#FA0556";
-			} else {
-				context.fillStyle = "#A00034";
-			}
-			context.fillRect( el.x, el.y, this.config.sizeCell, this.config.sizeCell );
-		} );
+// 		this.tails.forEach( (el, index) => {
+// 			if (index == 0) {
+// 				context.fillStyle = "#FA0556";
+// 			} else {
+// 				context.fillStyle = "#A00034";
+// 			}
+// 			context.fillRect( el.x, el.y, this.config.sizeCell, this.config.sizeCell );
+// 		} );
 
-	}
+// 	}
 
-	death() {
+// 	death() {
 
-		this.x = 160;
-		this.y = 160;
-		this.dx = this.config.sizeCell;
-		this.dy = 0;
-		this.tails = [];
-		this.maxTails = 3;
+// 		this.x = 160;
+// 		this.y = 160;
+// 		this.dx = this.config.sizeCell;
+// 		this.dy = 0;
+// 		this.tails = [];
+// 		this.maxTails = 3;
 
-	}
+// 	}
 
-	control() {
+// 	control() {
 		
-		document.addEventListener("keydown",  (e) => {
-			if ( e.code == "KeyW" && this.dy !== this.config.sizeCell) {
-				this.dy = -this.config.sizeCell;
-				this.dx = 0;
-			} else if ( e.code == "KeyA" && this.dx !== this.config.sizeCell) {
-				this.dx = -this.config.sizeCell;
-				this.dy = 0;
-			} else if ( e.code == "KeyS" && this.dy !== -this.config.sizeCell) {
-				this.dy = this.config.sizeCell;
-				this.dx = 0;
-			} else if ( e.code == "KeyD" && this.dx !== -this.config.sizeCell ) {
-				this.dx = this.config.sizeCell;
-				this.dy = 0;
-			}
-		});
+// 		document.addEventListener("keydown",  (e) => {
+// 			if ( e.code == "KeyW" && this.dy !== this.config.sizeCell) {
+// 				this.dy = -this.config.sizeCell;
+// 				this.dx = 0;
+// 			} else if ( e.code == "KeyA" && this.dx !== this.config.sizeCell) {
+// 				this.dx = -this.config.sizeCell;
+// 				this.dy = 0;
+// 			} else if ( e.code == "KeyS" && this.dy !== -this.config.sizeCell) {
+// 				this.dy = this.config.sizeCell;
+// 				this.dx = 0;
+// 			} else if ( e.code == "KeyD" && this.dx !== -this.config.sizeCell ) {
+// 				this.dx = this.config.sizeCell;
+// 				this.dy = 0;
+// 			}
+// 		});
 
-	}
+// 	}
 
+// }
+
+// class GameLoop {
+
+//     constructor( update, draw ) {
+
+//         this.update = update;
+//         this.draw = draw;
+
+//         this.config = new Config();
+
+//         this.animate = this.animate.bind(this);
+//         this.animate();
+
+//     }
+
+//     animate() {
+
+//         requestAnimationFrame( this.animate );
+//         if ( ++this.config.step < this.config.maxStep) {
+//             return;
+//         }
+//         this.config.step = 0;
+
+//         this.update();
+//         this.draw();
+
+//     }
+
+// }
+
+// class Berry {
+
+//     constructor( canvas ) {
+
+//         this.x = 0;
+//         this.y = 0;
+//         this.canvas = canvas;
+
+//         this.config = new Config();
+//         this.randomPosition();
+
+//     }
+
+//     draw(context) {
+
+//         context.beginPath();
+//         context.fillStyle = "#A00034";
+//         context.arc( this.x + (this.config.sizeCell / 2 ), this.y + (this.config.sizeCell / 2 ), this.config.sizeBerry, 0, 2 * Math.PI );
+//         context.fill();
+
+//     }
+
+//     randomPosition() {
+//         this.x = getRandomInt( 0, this.canvas.element.width / this.config.sizeCell ) * this.config.sizeCell;
+//         this.y = getRandomInt( 0, this.canvas.element.height / this.config.sizeCell ) * this.config.sizeCell;
+//     }
+
+// }
+
+
+// window.addEventListener('DOMContentLoaded', () => {
+//     const APP = new Game(document.querySelector(".canvas-wrapper"));
+// });
+
+
+///////////////////////////////////////////////////
+//                                               //
+// █████████████████████████████████████████████ //
+// █ ███    █    ██  █  █    █   █ ██ █   █ ██ █ //
+// █ ███ ██ █ ██  ██   ██ ██ ██ ██  █ ██ ██ ██ █ //
+// █ ███    █    ████ ███    ██ ██ █  ██ ██    █ //
+// █ ███ ██ █ ██  ███ ███ █ ███ ██ ██ ██ ██ ██ █ //
+// █   █ ██ █    ████ ███ █ ██   █ ██ ██ ██ ██ █ //
+// █████████████████████████████████████████████ //
+//                                               //
+///////////////////////////////////////////////////
+
+
+//support function
+
+const ConfigLabirint = {
+    defaultSizeLabirint: 5,
+    emptyCell: 0,
+    occupiedСell: 1,
+    finishCell: 2,
+    sizeCanvas: 500,
+    levlUpp: 2,
+    obstacleColor: "black",
+    matrixColor: "white",
+    playerColor: "DarkGray",
+    finishColor: "red",
 }
 
-class GameLoop {
 
-    constructor( update, draw ) {
+class Labirint{
+    constructor(){
+        this._element = document.getElementById( "labirint-canvas" );
+        this._element.setAttribute('width', ConfigLabirint.sizeCanvas);
+        this._element.setAttribute('height', ConfigLabirint.sizeCanvas);
+        this._context = this._element.getContext( "2d" );
 
-        this.update = update;
-        this.draw = draw;
 
-        this.config = new Config();
-
-        this.animate = this.animate.bind(this);
-        this.animate();
-
+        this._sizeLabirint =  ConfigLabirint.defaultSizeLabirint;
+        this._cellSize = ConfigLabirint.sizeCanvas / this._sizeLabirint;
     }
 
-    animate() {
-
-        requestAnimationFrame( this.animate );
-        if ( ++this.config.step < this.config.maxStep) {
-            return;
-        }
-        this.config.step = 0;
-
-        this.update();
+    newLevl(){
+        this._sizeLabirint += ConfigLabirint.levlUpp;
+        this._cellSize = ConfigLabirint.sizeCanvas / this._sizeLabirint;
+        this.getMatrix();
+        this.generateLabirint();
+        this.setFinish();
         this.draw();
+    }
 
+    setFinish(){
+        this._matrix[this._sizeLabirint - 1][this._sizeLabirint - 1] = ConfigLabirint.finishCell;
+    }
+
+    getMatrix(){
+        this._matrix = [];
+        for (let i = 0; i <  this._sizeLabirint; i++) {
+            this._matrix[i] = [];
+            for (let j = 0; j <  this._sizeLabirint; j++) {
+                this._matrix[i][j] = ConfigLabirint.occupiedСell;
+            }
+        }
+    }
+
+    generateLabirint(){
+        let array_of_even_numbers = [];
+        let map = this._matrix;
+        let n = this._matrix.length
+        for (let i = 0; i < n; i++){
+            if(getEven(i)){
+                array_of_even_numbers.push(i);
+            }
+        }
+        
+        const start_x = getRandomFrom(array_of_even_numbers);
+        const start_y = getRandomFrom(array_of_even_numbers);
+    
+        let removing = {
+            x: start_x,
+            y: start_y
+        };
+    
+        setField(start_x, start_y, 0);
+        
+        while (!getLabirint()) {
+            moveRemoving();
+        }
+    
+        this._matrix = map.slice();
+    
+        return;
+    
+        function getEven(n) {
+            return n % 2 === 0;
+        }
+    
+        function getLabirint () {
+            for (let x = 0; x < n; x++) {
+                for (let y = 0; y < n; y++) { 
+                    if (getEven(x) && getEven(y) && getField(x, y) === ConfigLabirint.occupiedСell) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    
+        function getRandomFrom(array) {
+            const index = Math.floor(Math.random() * array.length);
+            return array[index];
+        }
+        
+        function setField (x, y, value) {
+            if (x < 0 | x >= n | y < 0 | y >= n) {
+                return null;
+            };
+            map[x][y] = value;
+        }
+    
+        function getField(x, y) {
+            if (x < 0 | x >= n | y < 0 | y >= n) {
+                return null;
+            }
+            return map[x][y];
+        }
+    
+        function moveRemoving() {
+            const directs = [];
+            if (removing.x > 0) {
+                directs.push("l");
+            };
+            if (removing.x < n - 2) {
+                directs.push("r");
+            };	
+            if (removing.y > 0) {
+                directs.push("u");
+            };
+            if (removing.y < n - 2) {
+                directs.push("d");
+            };
+            const direct = getRandomFrom(directs);
+            switch (direct) {
+                case "l":
+                    if (getField(removing.x - 2, removing.y) === ConfigLabirint.occupiedСell) {
+                        setField(removing.x - 1, removing.y, ConfigLabirint.emptyCell);
+                        setField(removing.x - 2, removing.y, ConfigLabirint.emptyCell);
+                    };
+                    removing.x -= 2;
+                    break;
+                case "r":
+                    if (getField(removing.x + 2, removing.y) === ConfigLabirint.occupiedСell) {
+                        setField(removing.x + 1, removing.y, ConfigLabirint.emptyCell);
+                        setField(removing.x + 2, removing.y, ConfigLabirint.emptyCell);
+                    };
+                    removing.x += 2;
+                    break;
+                case "u":
+                    if (getField(removing.x, removing.y - 2) === ConfigLabirint.occupiedСell) {
+                        setField(removing.x, removing.y - 1, ConfigLabirint.emptyCell);
+                        setField(removing.x, removing.y - 2, ConfigLabirint.emptyCell);
+                    };
+                    removing.y -= 2
+                    break;
+                case "d":
+                    if (getField(removing.x, removing.y + 2) === ConfigLabirint.occupiedСell) {
+                        setField(removing.x, removing.y + 1, ConfigLabirint.emptyCell);
+                        setField(removing.x, removing.y + 2, ConfigLabirint.emptyCell);
+                    };
+                    removing.y += 2;
+                    break;
+            }
+        }
+    }
+
+    requestEptySell(x, y){
+        if(x < 0 || y < 0 || x >= this._sizeLabirint || y >= this._sizeLabirint){
+            return false;
+        }
+        if(this._matrix[x][y] === ConfigLabirint.occupiedСell){
+            return false;
+        }
+        return true;
+    }
+
+    requestFinish(x, y){
+        if(x === this._sizeLabirint - 1 && y === this._sizeLabirint - 1 ){
+            return true;
+        }
+        return false;
+    }
+
+    draw(){
+        for (let i = 0; i < this._sizeLabirint; i++) {
+            for (let j = 0; j < this._sizeLabirint; j++) {
+                if(this._matrix[j][i] === ConfigLabirint.occupiedСell){
+                    this.fillInTheCell(j, i, ConfigLabirint.obstacleColor);
+                }
+                else if(this._matrix[j][i] === ConfigLabirint.emptyCell){
+                    this.fillInTheCell(j, i, ConfigLabirint.matrixColor);
+                }
+                else{
+                    this.fillInTheCell(j, i, ConfigLabirint.finishColor);
+                }
+            }
+        }
+    }
+
+    fillInTheCell(x, y, color){
+        x *= this._cellSize;
+        y *= this._cellSize;
+        this._context.fillStyle = color;
+        this._context.fillRect(x - 1, y - 1, this._cellSize + 1, this._cellSize + 1);
+    }
+
+    drawACircle(x, y, color){
+        x *= this._cell;
+        y *= this._cell;
+        this._context.beginPath();
+        this._context.arc(x + this._cell / 2, y + this._cell / 2, this._cell / 3 , 0, 2 * Math.PI);
+        this._context.fillStyle = color;
+        this._context.fill();
+        this._context.stroke();
+    }
+}
+
+class Player{
+    constructor(){
+        this.score_ = new Score( "#score-labirint");
+        this.labirint = new Labirint();
+        this.newLevl();
+        this.initInput();
+    }
+
+    setToZeroPosition(){
+        this._positionX = 0;
+        this._positionY = 0;
+    }
+
+    newLevl(){
+        this.score_.incScore();
+        this.labirint.newLevl();
+        this.setToZeroPosition();
+        this.draw();
+    }
+
+    finish(){
+        if(this.labirint.requestFinish(this._positionX, this._positionY)){
+            this.newLevl();
+        }
+    }
+
+    initInput(){
+        document.addEventListener("keydown",  (e) => {
+            if ( e.code === "KeyW") {
+                if(this.labirint.requestEptySell(this._positionX, this._positionY - 1)){
+                    this.labirint.draw();
+                    this._positionY--;
+                    this.draw();
+                    this.finish();
+                }
+            }
+            else if ( e.code === "KeyS") {
+                if(this.labirint.requestEptySell(this._positionX, this._positionY + 1)){
+                    this.labirint.draw();
+                    this._positionY++;
+                    this.draw();
+                    this.finish();
+                }
+            }
+            else if ( e.code === "KeyA") {
+                if(this.labirint.requestEptySell(this._positionX - 1, this._positionY)){
+                    this.labirint.draw();
+                    this._positionX--;
+                    this.draw();
+                    this.finish();
+                }
+            } 
+            else if ( e.code === "KeyD") {
+                if(this.labirint.requestEptySell(this._positionX + 1, this._positionY)){
+                    this.labirint.draw();
+                    this._positionX++;
+                    this.draw();
+                    this.finish();
+                }   
+            }
+        });
+    }
+
+    draw(){
+        this.labirint.fillInTheCell(this._positionX, this._positionY, ConfigLabirint.playerColor);
     }
 
 }
-
-class Berry {
-
-    constructor( canvas ) {
-
-        this.x = 0;
-        this.y = 0;
-        this.canvas = canvas;
-
-        this.config = new Config();
-        this.randomPosition();
-
-    }
-
-    draw(context) {
-
-        context.beginPath();
-        context.fillStyle = "#A00034";
-        context.arc( this.x + (this.config.sizeCell / 2 ), this.y + (this.config.sizeCell / 2 ), this.config.sizeBerry, 0, 2 * Math.PI );
-        context.fill();
-
-    }
-
-    randomPosition() {
-        this.x = getRandomInt( 0, this.canvas.element.width / this.config.sizeCell ) * this.config.sizeCell;
-        this.y = getRandomInt( 0, this.canvas.element.height / this.config.sizeCell ) * this.config.sizeCell;
-    }
-
-}
-
 
 window.addEventListener('DOMContentLoaded', () => {
-    const APP = new Game(document.querySelector(".canvas-wrapper"));
+    const APP = new Player();
 });
-
